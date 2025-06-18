@@ -77,16 +77,6 @@
       "hotkey": "f7",
       "template_path": "templates\\NIAODE01_S-13.png",
       "text": "S-13"
-    },
-    "S-14": {
-      "hotkey": "w",
-      "template_path": "templates\\NIAODE01_S-14.png",
-      "text": "S-14"
-    },
-    "S-15": {
-      "hotkey": "f9",
-      "template_path": "templates\\NIAODE01_S-15.png",
-      "text": "S-15"
     }
   }
 }

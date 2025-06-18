@@ -13,11 +13,6 @@
     "auto_add_skills": false
   },
   "icon_bindings": {
-    "S-1": {
-      "hotkey": "f8",
-      "template_path": "templates\\BFS1_S-1.png",
-      "text": "S-1"
-    },
     "S-2": {
       "hotkey": "2",
       "template_path": "templates\\BFS1_S-2.png",
@@ -107,16 +102,6 @@
       "hotkey": "e",
       "template_path": "templates\\BFS1_S-19.png",
       "text": "S-19"
-    },
-    "S-20": {
-      "hotkey": "w",
-      "template_path": "templates\\BFS1_S-20.png",
-      "text": "S-20"
-    },
-    "S-21": {
-      "hotkey": "esc",
-      "template_path": "templates\\BFS1_S-21.png",
-      "text": "S-21"
     }
   }
 }

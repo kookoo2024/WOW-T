@@ -1,0 +1,52 @@
+{
+  "monitor_region": [
+    1193,
+    768,
+    50,
+    50
+  ],
+  "settings": {
+    "monitor_hotkey": "`",
+    "threshold": 0.9,
+    "scan_interval": 0.33,
+    "key_press_delay": 0.19,
+    "auto_add_skills": true
+  },
+  "icon_bindings": {
+    "S-3": {
+      "hotkey": "f1",
+      "template_path": "templates\\鸟德一号_S-3.png",
+      "text": "S-3"
+    },
+    "S-5": {
+      "hotkey": "f2",
+      "template_path": "templates\\鸟德一号_S-5.png",
+      "text": "S-5"
+    },
+    "S-6": {
+      "hotkey": "f5",
+      "template_path": "templates\\鸟德一号_S-6.png",
+      "text": "S-6"
+    },
+    "S-7": {
+      "hotkey": "f3",
+      "template_path": "templates\\鸟德一号_S-7.png",
+      "text": "S-7"
+    },
+    "S-8": {
+      "hotkey": ";",
+      "template_path": "templates\\鸟德一号_S-8.png",
+      "text": "S-8"
+    },
+    "S-9": {
+      "hotkey": "f7",
+      "template_path": "templates\\鸟德一号_S-9.png",
+      "text": "S-9"
+    },
+    "S-10": {
+      "hotkey": "f4",
+      "template_path": "templates\\鸟德一号_S-10.png",
+      "text": "S-10"
+    }
+  }
+}

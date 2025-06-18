@@ -237,6 +237,31 @@ class RegionSelector:
             self.callback(None, None, None, None)
 
 class WoWSkillAssistant:
+    def get_display_name(self, spec_name, max_length=6):
+        """
+        获取配置名称的显示版本
+        对于中文名称，优先显示完整名称，如果太长则智能截取
+        """
+        if not spec_name:
+            return ""
+
+        # 检查是否包含中文字符
+        import re
+        has_chinese = bool(re.search(r'[\u4e00-\u9fff]', spec_name))
+
+        if has_chinese:
+            # 对于中文名称，如果长度合理就完整显示，否则截取前4个字符
+            if len(spec_name) <= 6:
+                return spec_name
+            else:
+                return spec_name[:4] + "..."
+        else:
+            # 对于英文名称，如果长度合理就完整显示，否则取后6个字符
+            if len(spec_name) <= max_length:
+                return spec_name
+            else:
+                return spec_name[-max_length:]
+
     def __init__(self):
         self.root = ctk.CTk()
         self.root.title("孟子 - 加载中...")
@@ -344,7 +369,7 @@ class WoWSkillAssistant:
         if self.current_spec:
             self.status_label.configure(text=f"已加载配置: {self.current_spec}")
             self.spec_var.set(self.current_spec)
-            self.root.title(f"孟子 - {self.current_spec[-6:]}")
+            self.root.title(f"孟子 - {self.get_display_name(self.current_spec)}")
         else:
             self.status_label.configure(text="请创建新的职业配置")
             self.spec_var.set("请创建配置")
@@ -1201,7 +1226,7 @@ class WoWSkillAssistant:
             # 添加配置名称和自动添加状态
             if self.current_spec:
                 auto_add_status = "ON" if self.processor.settings.get('auto_add_skills', True) else "OFF"
-                title_parts.append(f"孟子 - {self.current_spec[-6:]} [{auto_add_status}]")                          
+                title_parts.append(f"孟子 - {self.get_display_name(self.current_spec)} [{auto_add_status}]")
             else:
                 title_parts.append("孟子 - 未选择配置")
             
@@ -1429,7 +1454,7 @@ class WoWSkillAssistant:
             # 更新UI
             self.update_binding_list()
             self.status_label.configure(text=f"已创建新职业专精: {new_spec}")
-            self.root.title(f"孟子 - {new_spec[-6:]}")
+            self.root.title(f"孟子 - {self.get_display_name(new_spec)}")
 
     def change_spec(self, spec_name):
         """切换职业专精"""
@@ -1455,16 +1480,16 @@ class WoWSkillAssistant:
                 # 更新UI
                 self.update_binding_list()
                 self.update_region_info()
-                self.status_label.configure(text=f"已切换到: {spec_name[-6:]}")
+                self.status_label.configure(text=f"已切换到: {self.get_display_name(spec_name)}")
                 # 更新窗口标题
-                self.root.title(f"孟子 - {spec_name[-6:]}")
+                self.root.title(f"孟子 - {self.get_display_name(spec_name)}")
                 # 立即保存最后使用的配置
                 print(f"保存最新配置到历史记录: {spec_name}")
                 self.save_last_config()
                 print(f"配置切换完成: {spec_name}")
             else:
                 print(f"加载配置失败: {spec_name}")
-                self.status_label.configure(text=f"加载配置失败: {spec_name[-6:]}")
+                self.status_label.configure(text=f"加载配置失败: {self.get_display_name(spec_name)}")
                 self.root.title("孟子 - 配置加载失败")
         except Exception as e:
             print(f"切换配置时出错: {str(e)}")
@@ -1480,7 +1505,7 @@ class WoWSkillAssistant:
         # 创建确认对话框
         confirm = tk.messagebox.askyesno(
             "确认删除",
-            f"确定要删除 {self.current_spec[-6:]} 的配置吗？\n此操作不可恢复！",
+            f"确定要删除 {self.get_display_name(self.current_spec)} 的配置吗？\n此操作不可恢复！",
             icon='warning'
         )
         
@@ -1526,10 +1551,10 @@ class WoWSkillAssistant:
                         if os.path.exists(self.history_file):
                             os.remove(self.history_file)
                     
-                    self.status_label.configure(text=f"已删除配置: {spec_to_delete[-6:]}")
+                    self.status_label.configure(text=f"已删除配置: {self.get_display_name(spec_to_delete)}")
                     # 更新窗口标题
                     if self.current_spec:
-                        self.root.title(f"孟子 - {self.current_spec[-6:]}")
+                        self.root.title(f"孟子 - {self.get_display_name(self.current_spec)}")
                     else:
                         self.root.title("孟子 - 未选择配置")
                 else:
@@ -1626,7 +1651,7 @@ class WoWSkillAssistant:
                     else:
                         os.rename(temp_file, self.history_file)
                     
-                print(f"已保存历史配置: {self.current_spec[-6:]}")
+                print(f"已保存历史配置: {self.get_display_name(self.current_spec)}")
                 print(f"窗口状态已保存: {history['window']}")
             
         except Exception as e:

@@ -225,10 +225,19 @@ class HekiliProcessor:
             
             # 保存每个绑定的数据和模板
             for name, binding in self.icon_bindings.items():
-                # 保存模板图像
-                template_path = os.path.join(template_dir, f"{spec_name}_{name}.png")
-                cv2.imwrite(template_path, binding.template)
-                print(f"保存模板到: {template_path}")
+                # 保存模板图像 - 使用安全的文件名处理
+                template_filename = f"{spec_name}_{name}.png"
+                template_path = os.path.join(template_dir, template_filename)
+
+                # 使用cv2.imencode和文件写入来避免中文路径问题
+                success, encoded_img = cv2.imencode('.png', binding.template)
+                if success:
+                    with open(template_path, 'wb') as f:
+                        f.write(encoded_img.tobytes())
+                    print(f"保存模板到: {template_path}")
+                else:
+                    print(f"编码模板图像失败: {template_path}")
+                    continue
                 
                 # 保存绑定数据，包括text属性
                 config['icon_bindings'][name] = {
@@ -286,7 +295,16 @@ class HekiliProcessor:
                     print(f"尝试加载模板: {template_path}")
                     
                     if os.path.exists(template_path):
-                        template = cv2.imread(template_path)
+                        # 使用安全的方式读取中文路径的图像文件
+                        try:
+                            with open(template_path, 'rb') as f:
+                                img_data = f.read()
+                            img_array = np.frombuffer(img_data, np.uint8)
+                            template = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+                        except Exception as e:
+                            print(f"读取模板文件失败: {template_path} - {e}")
+                            template = None
+
                         if template is not None:
                             # 创建新的绑定，包含text属性
                             binding = IconBinding(
@@ -309,7 +327,8 @@ class HekiliProcessor:
                     continue
                 
             print(f"成功加载 {success_count}/{len(bindings_data)} 个技能绑定")
-            return success_count > 0
+            # 即使没有技能绑定，配置文件本身加载成功也应该返回True
+            return True
             
         except Exception as e:
             print(f"加载配置时出错: {str(e)}")
