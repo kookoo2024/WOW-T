@@ -1,0 +1,42 @@
+{
+  "monitor_region": [
+    813,
+    767,
+    50,
+    50
+  ],
+  "settings": {
+    "monitor_hotkey": "`",
+    "threshold": 0.9,
+    "scan_interval": 0.33,
+    "key_press_delay": 0.19,
+    "auto_add_skills": false
+  },
+  "icon_bindings": {
+    "S-1": {
+      "hotkey": "f1",
+      "template_path": "templates\\HJ-SS01_S-1.png",
+      "text": "S-1"
+    },
+    "S-2": {
+      "hotkey": "f2",
+      "template_path": "templates\\HJ-SS01_S-2.png",
+      "text": "S-2"
+    },
+    "S-3": {
+      "hotkey": "f9",
+      "template_path": "templates\\HJ-SS01_S-3.png",
+      "text": "S-3"
+    },
+    "S-4": {
+      "hotkey": "f4",
+      "template_path": "templates\\HJ-SS01_S-4.png",
+      "text": "S-4"
+    },
+    "S-5": {
+      "hotkey": "tab",
+      "template_path": "templates\\HJ-SS01_S-5.png",
+      "text": "S-5"
+    }
+  }
+}

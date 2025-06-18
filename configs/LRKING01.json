@@ -1,0 +1,107 @@
+{
+  "monitor_region": [
+    1193,
+    755,
+    50,
+    50
+  ],
+  "settings": {
+    "monitor_hotkey": "`",
+    "threshold": 0.9,
+    "scan_interval": 0.39,
+    "key_press_delay": 0.19,
+    "auto_add_skills": false
+  },
+  "icon_bindings": {
+    "S-1": {
+      "hotkey": ";",
+      "template_path": "templates\\LRKING01_S-1.png",
+      "text": "S-1"
+    },
+    "S-2": {
+      "hotkey": "f2",
+      "template_path": "templates\\LRKING01_S-2.png",
+      "text": "S-2"
+    },
+    "S-3": {
+      "hotkey": "f3",
+      "template_path": "templates\\LRKING01_S-3.png",
+      "text": "S-3"
+    },
+    "S-4": {
+      "hotkey": "f4",
+      "template_path": "templates\\LRKING01_S-4.png",
+      "text": "S-4"
+    },
+    "S-5": {
+      "hotkey": "f1",
+      "template_path": "templates\\LRKING01_S-5.png",
+      "text": "S-5"
+    },
+    "S-6": {
+      "hotkey": ",",
+      "template_path": "templates\\LRKING01_S-6.png",
+      "text": "S-6"
+    },
+    "S-7": {
+      "hotkey": "2",
+      "template_path": "templates\\LRKING01_S-7.png",
+      "text": "S-7"
+    },
+    "S-8": {
+      "hotkey": "f7",
+      "template_path": "templates\\LRKING01_S-8.png",
+      "text": "S-8"
+    },
+    "S-9": {
+      "hotkey": "f6",
+      "template_path": "templates\\LRKING01_S-9.png",
+      "text": "S-9"
+    },
+    "S-10": {
+      "hotkey": "3",
+      "template_path": "templates\\LRKING01_S-10.png",
+      "text": "S-10"
+    },
+    "S-11": {
+      "hotkey": "f8",
+      "template_path": "templates\\LRKING01_S-11.png",
+      "text": "S-11"
+    },
+    "S-12": {
+      "hotkey": "5",
+      "template_path": "templates\\LRKING01_S-12.png",
+      "text": "S-12"
+    },
+    "S-13": {
+      "hotkey": ".",
+      "template_path": "templates\\LRKING01_S-13.png",
+      "text": "S-13"
+    },
+    "S-15": {
+      "hotkey": "9",
+      "template_path": "templates\\LRKING01_S-15.png",
+      "text": "S-15"
+    },
+    "S-16": {
+      "hotkey": "f6",
+      "template_path": "templates\\LRKING01_S-16.png",
+      "text": "S-16"
+    },
+    "S-17": {
+      "hotkey": "0",
+      "template_path": "templates\\LRKING01_S-17.png",
+      "text": "S-17"
+    },
+    "S-18": {
+      "hotkey": "0",
+      "template_path": "templates\\LRKING01_S-18.png",
+      "text": "S-18"
+    },
+    "S-19": {
+      "hotkey": "f2",
+      "template_path": "templates\\LRKING01_S-19.png",
+      "text": "S-19"
+    }
+  }
+}

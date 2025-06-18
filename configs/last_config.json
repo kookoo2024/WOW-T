@@ -1,0 +1,24 @@
+{
+  "last_spec": "HJ-SS01",
+  "window": {
+    "x": 1440,
+    "y": 11,
+    "width": 146,
+    "height": 52
+  },
+  "monitor_region": [
+    813,
+    767,
+    50,
+    50
+  ],
+  "settings": {
+    "monitor_hotkey": "`",
+    "threshold": 0.9,
+    "scan_interval": 0.33,
+    "key_press_delay": 0.19,
+    "auto_add_skills": false
+  },
+  "auto_add_skills": false,
+  "last_update": "2025-06-17 23:03:19"
+}

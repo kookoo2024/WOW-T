@@ -1,0 +1,132 @@
+{
+  "monitor_region": [
+    1193,
+    755,
+    50,
+    50
+  ],
+  "settings": {
+    "monitor_hotkey": "`",
+    "threshold": 0.9,
+    "scan_interval": 0.39,
+    "key_press_delay": 0.19,
+    "auto_add_skills": false
+  },
+  "icon_bindings": {
+    "S-13": {
+      "hotkey": ";",
+      "template_path": "templates\\HKPVEANMU001_S-13.png",
+      "text": "S-13"
+    },
+    "S-14": {
+      "hotkey": "f6",
+      "template_path": "templates\\HKPVEANMU001_S-14.png",
+      "text": "S-14"
+    },
+    "S-15": {
+      "hotkey": "z",
+      "template_path": "templates\\HKPVEANMU001_S-15.png",
+      "text": "黑剑"
+    },
+    "S-16": {
+      "hotkey": "alt+2",
+      "template_path": "templates\\HKPVEANMU001_S-16.png",
+      "text": "S-16"
+    },
+    "S-17": {
+      "hotkey": "alt+4",
+      "template_path": "templates\\HKPVEANMU001_S-17.png",
+      "text": "S-17"
+    },
+    "S-18": {
+      "hotkey": "f7",
+      "template_path": "templates\\HKPVEANMU001_S-18.png",
+      "text": "爆炸"
+    },
+    "S-19": {
+      "hotkey": "f3",
+      "template_path": "templates\\HKPVEANMU001_S-19.png",
+      "text": "S-19"
+    },
+    "S-20": {
+      "hotkey": "f4",
+      "template_path": "templates\\HKPVEANMU001_S-20.png",
+      "text": "速"
+    },
+    "S-21": {
+      "hotkey": "f1",
+      "template_path": "templates\\HKPVEANMU001_S-21.png",
+      "text": "S-21"
+    },
+    "S-22": {
+      "hotkey": "t",
+      "template_path": "templates\\HKPVEANMU001_S-22.png",
+      "text": "反"
+    },
+    "S-23": {
+      "hotkey": "alt+1",
+      "template_path": "templates\\HKPVEANMU001_S-23.png",
+      "text": "S-23"
+    },
+    "S-24": {
+      "hotkey": "f2",
+      "template_path": "templates\\HKPVEANMU001_S-24.png",
+      "text": "S-24"
+    },
+    "S-25": {
+      "hotkey": "'",
+      "template_path": "templates\\HKPVEANMU001_S-25.png",
+      "text": "治疗"
+    },
+    "S-27": {
+      "hotkey": "f5",
+      "template_path": "templates\\HKPVEANMU001_S-27.png",
+      "text": "S-27"
+    },
+    "S-28": {
+      "hotkey": "q",
+      "template_path": "templates\\HKPVEANMU001_S-28.png",
+      "text": "S-28"
+    },
+    "S-31": {
+      "hotkey": "alt+6",
+      "template_path": "templates\\HKPVEANMU001_S-31.png",
+      "text": "药水"
+    },
+    "S-30": {
+      "hotkey": "x",
+      "template_path": "templates\\HKPVEANMU001_S-30.png",
+      "text": "S-30"
+    },
+    "S-26": {
+      "hotkey": "7",
+      "template_path": "templates\\HKPVEANMU001_S-26.png",
+      "text": "S-26"
+    },
+    "S-29": {
+      "hotkey": "5",
+      "template_path": "templates\\HKPVEANMU001_S-29.png",
+      "text": "S-29"
+    },
+    "S-32": {
+      "hotkey": "9",
+      "template_path": "templates\\HKPVEANMU001_S-32.png",
+      "text": "S-32"
+    },
+    "S-33": {
+      "hotkey": "4",
+      "template_path": "templates\\HKPVEANMU001_S-33.png",
+      "text": "S-33"
+    },
+    "S-34": {
+      "hotkey": "space",
+      "template_path": "templates\\HKPVEANMU001_S-34.png",
+      "text": "S-34"
+    },
+    "S-35": {
+      "hotkey": "w",
+      "template_path": "templates\\HKPVEANMU001_S-35.png",
+      "text": "S-35"
+    }
+  }
+}
