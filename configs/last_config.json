@@ -1,10 +1,10 @@
 {
   "last_spec": "鸟德一号",
   "window": {
-    "x": 655,
-    "y": 312,
-    "width": 509,
-    "height": 431
+    "x": 436,
+    "y": 458,
+    "width": 258,
+    "height": 44
   },
   "monitor_region": [
     1193,
@@ -17,8 +17,8 @@
     "threshold": 0.9,
     "scan_interval": 0.33,
     "key_press_delay": 0.19,
-    "auto_add_skills": true
+    "auto_add_skills": false
   },
-  "auto_add_skills": true,
-  "last_update": "2025-06-18 15:42:26"
+  "auto_add_skills": false,
+  "last_update": "2025-06-18 18:21:43"
 }

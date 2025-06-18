@@ -417,24 +417,45 @@ class WoWSkillAssistant:
             height=28
         )
         self.start_btn.pack(side="left", padx=2)
-        
-        # 设置按钮移到左侧第二个位置
-        self.settings_btn = ctk.CTkButton(
+
+        # 添加职业选择下拉框到开始按钮后
+        self.spec_var = ctk.StringVar(value=self.current_spec if self.current_spec else "请创建配置")
+
+        def on_spec_change(new_spec):
+            """处理配置切换"""
+            print(f"切换配置: 从 {self.current_spec} 到 {new_spec}")
+            self.change_spec(new_spec)
+
+        self.spec_dropdown = ctk.CTkOptionMenu(
             left_btn_frame,
-            text="设置",
-            command=self.show_settings,
+            variable=self.spec_var,
+            values=self.specs if self.specs else ["请创建配置"],
+            command=on_spec_change,
+            width=100
+        )
+        self.spec_dropdown.pack(side="left", padx=5)
+
+        # 添加新建职业按钮
+        add_spec_btn = ctk.CTkButton(
+            left_btn_frame,
+            text="新建",
+            command=self.create_new_spec,
             width=60,
-            height=28
+            height=24
         )
-        self.settings_btn.pack(side="left", padx=2)
-        
-        # 显示当前区域信息
-        self.region_info_label = ctk.CTkLabel(
+        add_spec_btn.pack(side="left", padx=2)
+
+        # 添加删除职业按钮
+        delete_spec_btn = ctk.CTkButton(
             left_btn_frame,
-            text="未设置监控区域",
-            font=("Arial", 12)
+            text="删除",
+            command=self.delete_spec,
+            width=60,
+            height=24,
+            fg_color="#D35B58",
+            hover_color="#C15856"
         )
-        self.region_info_label.pack(side="left", padx=5)
+        delete_spec_btn.pack(side="left", padx=2)
         
         # 右侧按钮组
         right_btn_frame = ctk.CTkFrame(control_frame)
@@ -458,15 +479,26 @@ class WoWSkillAssistant:
             height=28
         )
         self.preview_region_btn.pack(side="left", padx=2)
-        
-        self.add_binding_btn = ctk.CTkButton(
+
+        # 设置按钮移到预览按钮之后
+        self.settings_btn = ctk.CTkButton(
             right_btn_frame,
-            text="添加技能",
-            command=self.quick_add_binding,
-            width=80,
+            text="设置",
+            command=self.show_settings,
+            width=60,
             height=28
         )
-        self.add_binding_btn.pack(side="left", padx=2)
+        self.settings_btn.pack(side="left", padx=2)
+
+        # 隐藏添加技能按钮以减少空间
+        # self.add_binding_btn = ctk.CTkButton(
+        #     right_btn_frame,
+        #     text="添加技能",
+        #     command=self.quick_add_binding,
+        #     width=80,
+        #     height=28
+        # )
+        # self.add_binding_btn.pack(side="left", padx=2)
         
         # 绑定列表区域
         self.bindings_frame = ctk.CTkFrame(self.main_frame)
@@ -485,49 +517,6 @@ class WoWSkillAssistant:
         
         # 更新绑定列表
         self.update_binding_list()
-        
-        # 在控制按钮行添加职业选择器
-        spec_frame = ctk.CTkFrame(self.main_frame)
-        spec_frame.pack(fill="x", padx=5, pady=2)
-        
-        # 添加职业选择下拉框
-        self.spec_var = ctk.StringVar(value=self.current_spec if self.current_spec else "请创建配置")
-        
-        def on_spec_change(new_spec):
-            """处理配置切换"""
-            print(f"切换配置: 从 {self.current_spec} 到 {new_spec}")
-            self.change_spec(new_spec)
-        
-        self.spec_dropdown = ctk.CTkOptionMenu(
-            spec_frame,
-            variable=self.spec_var,
-            values=self.specs if self.specs else ["请创建配置"],
-            command=on_spec_change,
-            width=100
-        )
-        self.spec_dropdown.pack(side="left", padx=2)
-        
-        # 添加新建职业按钮
-        add_spec_btn = ctk.CTkButton(
-            spec_frame,
-            text="新建",
-            command=self.create_new_spec,
-            width=60,
-            height=24
-        )
-        add_spec_btn.pack(side="left", padx=2)
-        
-        # 添加删除职业按钮
-        delete_spec_btn = ctk.CTkButton(
-            spec_frame,
-            text="删除",
-            command=self.delete_spec,
-            width=60,
-            height=24,
-            fg_color="#D35B58",
-            hover_color="#C15856"
-        )
-        delete_spec_btn.pack(side="left", padx=2)
         
     def setup_hotkeys(self):
         """设置全局快捷键"""
@@ -704,13 +693,14 @@ class WoWSkillAssistant:
         
     def update_region_info(self):
         """更新区域信息显示"""
+        # 由于已移除region_info_label，此方法现在只更新状态栏
         if self.processor.monitor_region:
             x, y, w, h = self.processor.monitor_region
-            self.region_info_label.configure(
-                text=f"当前: 【{x}, {y}】"
-            )
+            # 可以选择在状态栏显示区域信息，或者什么都不做
+            pass
         else:
-            self.region_info_label.configure(text="未设置监控区域")
+            # 可以选择在状态栏显示未设置信息，或者什么都不做
+            pass
         
     def update_binding_list(self):
         """优化后的绑定列表更新函数"""
@@ -1573,33 +1563,7 @@ class WoWSkillAssistant:
         except Exception as e:
             print(f"清理预览图像时出错: {str(e)}")
 
-    def create_spec_selector(self):
-        """创建职业选择器"""
-        # ... 其他代码 ...
-        
-        def update_spec_list():
-            """更新职业列表"""
-            # 清除现有选项
-            spec_menu.configure(values=[])
-            
-            # 获取配置文件列表
-            config_files = []
-            if os.path.exists(self.processor.config_dir):
-                config_files = [f[:-5] for f in os.listdir(self.processor.config_dir)
-                      if f.endswith('.json')]
-            
-            if config_files:
-                spec_menu.configure(values=config_files)
-                # 如果当前选中的配置在列表中，则保持选中
-                if self.current_spec in config_files:
-                    spec_menu.set(self.current_spec)
-                else:
-                    spec_menu.set(config_files[0])
-                    self.on_spec_selected(config_files[0])
-            else:
-                spec_menu.configure(values=["无配置"])
-                spec_menu.set("无配置")
-                self.current_spec = None
+
 
     def save_last_config(self):
         """保存最后使用的配置"""
