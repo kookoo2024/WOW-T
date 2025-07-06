@@ -1,0 +1,47 @@
+{
+  "monitor_region": [
+    1744,
+    197,
+    50,
+    50
+  ],
+  "settings": {
+    "monitor_hotkey": "`",
+    "threshold": 0.9,
+    "scan_interval": 0.33,
+    "key_press_delay": 0.19,
+    "auto_add_skills": true
+  },
+  "icon_bindings": {
+    "S-1": {
+      "hotkey": "alt+3",
+      "template_path": "templates\\新邪DK一号_S-1.png",
+      "text": "S-1"
+    },
+    "S-2": {
+      "hotkey": "f3",
+      "template_path": "templates\\新邪DK一号_S-2.png",
+      "text": "S-2"
+    },
+    "S-3": {
+      "hotkey": "alt+7",
+      "template_path": "templates\\新邪DK一号_S-3.png",
+      "text": "S-3"
+    },
+    "S-4": {
+      "hotkey": "f1",
+      "template_path": "templates\\新邪DK一号_S-4.png",
+      "text": "S-4"
+    },
+    "S-5": {
+      "hotkey": "alt+2",
+      "template_path": "templates\\新邪DK一号_S-5.png",
+      "text": "S-5"
+    },
+    "S-6": {
+      "hotkey": "z",
+      "template_path": "templates\\新邪DK一号_S-6.png",
+      "text": "S-6"
+    }
+  }
+}

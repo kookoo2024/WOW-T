@@ -1,24 +1,24 @@
 {
-  "last_spec": "鸟德一号",
+  "last_spec": "新鸟一号",
   "window": {
-    "x": 436,
-    "y": 458,
-    "width": 258,
-    "height": 44
+    "x": 554,
+    "y": 997,
+    "width": 152,
+    "height": 39
   },
   "monitor_region": [
-    1193,
-    768,
+    1744,
+    197,
     50,
     50
   ],
   "settings": {
     "monitor_hotkey": "`",
     "threshold": 0.9,
-    "scan_interval": 0.33,
+    "scan_interval": 0.47,
     "key_press_delay": 0.19,
     "auto_add_skills": false
   },
   "auto_add_skills": false,
-  "last_update": "2025-06-18 18:21:43"
+  "last_update": "2025-07-06 18:36:29"
 }

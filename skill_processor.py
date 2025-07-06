@@ -357,12 +357,40 @@ class HekiliProcessor:
         Returns:
             bool: 是否成功释放技能
         """
+        # 检查是否启用，如果禁用则不执行按键模拟
+        if not self.enabled:
+            return False
+
         current_time = time.time()
         if current_time - binding.last_cast >= binding.cooldown:
             try:
-                keyboard.press(binding.hotkey)
-                time.sleep(self.settings['key_press_delay'])
-                keyboard.release(binding.hotkey)
+                # 再次检查enabled状态，确保在按键模拟期间没有被禁用
+                if not self.enabled:
+                    return False
+
+                # 处理ALT组合键
+                hotkey = binding.hotkey
+                if hotkey.startswith('alt+'):
+                    # ALT组合键处理
+                    key = hotkey[4:]  # 去掉'alt+'前缀
+
+                    # 按下ALT键
+                    keyboard.press('alt')
+                    time.sleep(0.01)  # 短暂延迟
+
+                    # 按下主键
+                    keyboard.press(key)
+                    time.sleep(self.settings['key_press_delay'])
+                    keyboard.release(key)
+
+                    # 释放ALT键
+                    keyboard.release('alt')
+                else:
+                    # 单个按键
+                    keyboard.press(hotkey)
+                    time.sleep(self.settings['key_press_delay'])
+                    keyboard.release(hotkey)
+
                 binding.last_cast = current_time
                 binding.update_stats(self.last_match_value)
                 self.update_status(f"释放技能 [{binding.name}] - 按键: {binding.hotkey}")

@@ -358,6 +358,7 @@ class WoWSkillAssistant:
         self.last_ui_update = 0
         self.ui_update_interval = 1.0
         self.pending_update = False
+        self.adding_new_skill = False  # 添加标志防止重复添加技能
         
         # 设置UI和热键
         self.setup_ui()
@@ -542,24 +543,26 @@ class WoWSkillAssistant:
     def quick_add_binding(self):
         """快速添加技能绑定"""
         self.status_label.configure(text="请按下要绑定的快捷键...")
-        
+
         def on_key(key):
             try:
                 if hasattr(key, 'char'):
                     hotkey = key.char
                 else:
                     hotkey = key.name
-                    
+
+                print(f"快速添加 - 用户按下按键: {hotkey}")
+
                 # 创建技能名称 (使用英文)
                 skill_count = len(self.processor.icon_bindings) + 1
                 # 找到未使用的技能编号
                 while f"skill_{skill_count}" in self.processor.icon_bindings:
                     skill_count += 1
                 name = f"skill_{skill_count}"
-                
+
                 # 最小化窗口并等待用户选择图标
                 self.root.iconify()
-                
+
                 def on_icon_selected(x1, y1, x2, y2):
                     def restore_ui():
                         self.root.deiconify()
@@ -567,25 +570,25 @@ class WoWSkillAssistant:
                             template = self.processor.capture_icon_template(
                                 x1, y1, x2, y2
                             )
-                            
-                            self.processor.add_icon_binding(name, hotkey, template)
+
+                            self.processor.add_icon_binding(name, name, hotkey, template)
                             self.update_binding_list()
                             self.status_label.configure(text=f"已添加绑定: {name} -> {hotkey}")
                         else:
                             self.status_label.configure(text="添加绑定已取消")
-                    
+
                     # 在主线程中更新UI
                     self.root.after(0, restore_ui)
-                
+
                 # 使用相同的选择器来选择技能图标
                 selector = RegionSelector(on_icon_selected, size=48)
                 selector.start()
-                
+
                 return False
             except Exception as e:
                 self.status_label.configure(text=f"添加绑定时出错: {str(e)}")
                 return False
-        
+
         # 在新线程中监听按键
         key_thread = threading.Thread(target=lambda: kb.Listener(on_press=on_key).start())
         key_thread.daemon = True
@@ -875,9 +878,9 @@ class WoWSkillAssistant:
         # 编辑按键
         def edit_hotkey():
             self.status_label.configure(text="请按下新的快捷键... (支持单键或ALT+数字组合)")
-            
+
             alt_pressed = False
-            
+
             def on_key(key):
                 nonlocal alt_pressed
                 try:
@@ -885,7 +888,7 @@ class WoWSkillAssistant:
                     if key == kb.Key.alt_l or key == kb.Key.alt_r:
                         alt_pressed = True
                         return True
-                    
+
                     # 处理按键
                     if hasattr(key, 'char'):
                         if key.char and key.char.isdigit() and alt_pressed:
@@ -1276,13 +1279,15 @@ class WoWSkillAssistant:
             for binding in bindings:
                 match_value, hamming = self.processor.find_icon_in_region_with_value(binding, region_cv)
                 if match_value >= self.processor.settings['threshold']:
-                    self.cast_skill_and_record(binding)
+                    # 只有在按键模拟启用时才释放技能
+                    if self.processor.enabled:
+                        self.cast_skill_and_record(binding)
                     found_icon = True
                     break
                 max_match = max(max_match, match_value)
             
             # 调整检测逻辑，添加更多调试信息
-            if not found_icon and self.current_spec:  # 确保有当前配置
+            if not found_icon and self.current_spec and not self.adding_new_skill:  # 确保有当前配置且不在添加过程中
                 print(f"未找到匹配图标，最大匹配值: {max_match}")
                 if max_match < 0.77:
                     print("检测到可能的新图标")
@@ -1292,6 +1297,7 @@ class WoWSkillAssistant:
                         print(f"非黑色像素比例: {non_black}, 确认为新图标")
                         # 检查是否启用了自动添加
                         if self.processor.settings.get('auto_add_skills', True):
+                            self.adding_new_skill = True  # 设置标志防止重复添加
                             self.handle_new_icon(region_cv)
                         else:
                             print("自动添加新技能已禁用")
@@ -1307,11 +1313,11 @@ class WoWSkillAssistant:
         """处理发现的新图标"""
         try:
             print("开始处理新图标...")
-            # 暂停监控
+            # 只停止按键模拟，保持监控检测继续运行
             was_running = self.running
-            self.running = False
-            self.processor.enabled = False
-            self.start_btn.configure(text="开始监控 (~)")
+            self.processor.enabled = False  # 禁用按键模拟
+
+            print("按键模拟已停止，监控检测继续运行，开始处理新图标输入...")
             
             # 创建预览窗口
             preview = ctk.CTkToplevel(self.root)
@@ -1347,22 +1353,40 @@ class WoWSkillAssistant:
             # 提示文本
             ctk.CTkLabel(preview, text="发现新技能图标，请按下要绑定的按键").pack(pady=5)
             
+            # 添加ALT键状态跟踪
+            alt_pressed = False
+
             def on_key(key):
+                nonlocal alt_pressed
                 try:
-                    if hasattr(key, 'char'):
-                        hotkey = key.char
+                    # 检测ALT键
+                    if key == kb.Key.alt_l or key == kb.Key.alt_r:
+                        alt_pressed = True
+                        return True
+
+                    # 处理按键
+                    hotkey = ""
+                    if hasattr(key, 'char') and key.char:
+                        # 字符键
+                        if alt_pressed and key.char.isdigit():
+                            # ALT + 数字组合
+                            hotkey = f"alt+{key.char}"
+                        else:
+                            # 普通字符键
+                            hotkey = key.char
                     else:
+                        # 功能键
                         hotkey = key.name
-                        
+
                     print(f"用户按下按键: {hotkey}")
-                    
+
                     # 确保有当前配置
                     if not self.current_spec:
                         print("错误：没有选择配置文件")
                         self.status_label.configure(text="请先创建或选择一个配置")
                         preview.destroy()
                         return False
-                    
+
                     # 添加新的图标绑定，传入默认名称作为text
                     template = region_cv.copy()
                     binding = self.processor.add_icon_binding(
@@ -1371,7 +1395,7 @@ class WoWSkillAssistant:
                         hotkey=hotkey,
                         template_image=template
                     )
-                    
+
                     # 保存到当前配置文件
                     if self.processor.save_config(spec_name=self.current_spec):
                         self.update_binding_list()
@@ -1380,29 +1404,40 @@ class WoWSkillAssistant:
                     else:
                         self.status_label.configure(text="保存配置失败")
                         print("保存配置失败")
-                    
+
                     # 关闭预览窗口
                     preview.destroy()
-                    
-                    # 如果之前在运行，则恢复监控
+
+                    # 恢复按键模拟功能并重置添加标志
                     if was_running:
-                        self.toggle_monitoring()
-                    
+                        self.processor.enabled = True
+                        print("按键模拟已恢复")
+                    self.adding_new_skill = False  # 重置标志，允许检测下一个新技能
+
                     return False
                 except Exception as e:
                     print(f"处理按键时出错: {str(e)}")
                     self.status_label.configure(text=f"添加绑定时出错: {str(e)}")
                     preview.destroy()
+                    self.adding_new_skill = False  # 重置标志
                     return False
-            
-            # 在新线程中监听按键
-            key_thread = threading.Thread(target=lambda: kb.Listener(on_press=on_key).start())
+
+            def on_key_release(key):
+                nonlocal alt_pressed
+                # 重置ALT键状态
+                if key == kb.Key.alt_l or key == kb.Key.alt_r:
+                    alt_pressed = False
+                return True
+
+            # 在新线程中监听按键，包括按键释放事件
+            key_thread = threading.Thread(target=lambda: kb.Listener(on_press=on_key, on_release=on_key_release).start())
             key_thread.daemon = True
             key_thread.start()
             
         except Exception as e:
             print(f"处理新图标时出错: {str(e)}")
             self.status_label.configure(text=f"处理新图标时出错: {str(e)}")
+            self.adding_new_skill = False  # 重置标志
 
     def load_specs(self):
         """加载所有已保存的职业专精配置"""
