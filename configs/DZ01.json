@@ -1,7 +1,7 @@
 {
   "monitor_region": [
-    106,
-    993,
+    113,
+    1018,
     50,
     50
   ],
@@ -10,22 +10,28 @@
     "threshold": 0.9,
     "scan_interval": 0.33,
     "key_press_delay": 0.19,
-    "auto_add_skills": true
+    "auto_add_skills": true,
+    "new_skill_threshold": 0.68
   },
   "icon_bindings": {
-    "S-1": {
-      "hotkey": "1",
-      "text": "S-1",
-      "threshold": 0.9
-    },
     "S-2": {
-      "hotkey": "alt+7",
+      "hotkey": "alt+6",
       "text": "S-2",
       "threshold": 0.9
     },
     "S-3": {
-      "hotkey": "r",
+      "hotkey": "alt+8",
       "text": "S-3",
+      "threshold": 0.9
+    },
+    "S-4": {
+      "hotkey": "alt+1",
+      "text": "S-4",
+      "threshold": 0.9
+    },
+    "S-5": {
+      "hotkey": "alt+9",
+      "text": "S-5",
       "threshold": 0.9
     }
   }
